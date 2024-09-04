@@ -4,6 +4,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const userRouter = require("./router/user-router");
+const projectRouter = require("./router/project-router");
+
 const errorMiddleware = require("./middlewares/error-middleware");
 
 const PORT = process.env.PORT || 5000;
@@ -21,6 +23,7 @@ app.use(cors(corsOptions));
 app.use(errorMiddleware)
 
 app.use('/api/users', userRouter)
+app.use('/api/projects', projectRouter)
 
 const start = async () => {
   try {

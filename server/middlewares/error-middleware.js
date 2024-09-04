@@ -2,6 +2,7 @@ const ApiError = require("../exceptions/api-error");
 
 module.exports = function (err, req, res, next) {
   if (err instanceof ApiError) {
+    console.log("firsttyt")
     return res.status(err.status).json({ message: err.message, errors: err.errors });
   }
 
