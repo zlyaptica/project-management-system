@@ -1,0 +1,11 @@
+.formInput {
+  border: 1px solid gray;
+  border-radius: 5px;
+  height: 25px;
+  width: 300px;
+}
+
+.formInput:focus {
+  outline: none;
+  border: 2px solid rgb(64, 114, 180);
+}

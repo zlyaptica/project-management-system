@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.rootLayout {
+  min-height: 100vh;
+}
+
+.rootHeader {
+  padding: 10px;
+  border-bottom: 1px solid gray;
+  background-color: #fff;
+  height: auto;
+  line-height: normal;
+}
+
+.rootContent {
+  margin: 16px;
+}

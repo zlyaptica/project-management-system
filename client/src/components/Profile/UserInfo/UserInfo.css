@@ -1,0 +1,31 @@
+.userInfoHeader {
+  display: flex;
+  /* align-items: center; */
+  flex-direction: row;
+}
+
+.userIconBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-right: 10px;
+}
+
+.userInfoData {
+  display: flex;
+  flex-direction: column;
+}
+
+.userAttributeName {
+  text-align: left;
+  margin: 5px;
+}
+
+.userAttribute {
+  text-align: left;
+}
+
+.attributeName {
+  width: 130px;
+}
+
