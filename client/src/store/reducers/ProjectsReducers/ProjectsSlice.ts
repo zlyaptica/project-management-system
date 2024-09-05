@@ -40,7 +40,6 @@ export const projectsSlice = createSlice({
     builder.addCase(deleteProject.fulfilled, (state, action) => {
       const updatedProjects = state.projects.filter((project) => project._id !== action.payload);
       state.projects = updatedProjects;
-      console.log("first", updatedProjects);
       state.isLoading = false;
       state.error = null;
     });

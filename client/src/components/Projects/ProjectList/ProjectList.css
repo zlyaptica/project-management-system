@@ -3,25 +3,3 @@
   border-spacing: 0px;
   border-collapse: collapse;
 }
-
-.projectsTableRow:hover {
-  background-color: #e9e8e8;
-}
-
-.projectsTableCell {
-  /* padding: 10px; */
-  text-wrap: nowrap;
-}
-
-.projectsTableCell:nth-child(1) {
-  padding-left: 15px;
-  border-radius: 5px 0 0 5px;
-}
-
-.projectsTableCell:nth-child(3) {
-  border-radius: 0 5px 5px 0;
-}
-
-.projectTitle {
-  width: 100%;
-}

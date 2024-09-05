@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from "../../store";
 import { AxiosError } from "axios";
 import { projectAPI } from "../../../api/authApi";
 import { IProject } from "../../../shared/models/IProject";
-import { IChangeTitleRequest, IChangeTitleResponse } from "./Models/ChangeTitle";
+import { IChangeTitleRequest } from "./Models/ChangeTitle";
 
 export const getProjects = createAsyncThunk<
   IProject[],
@@ -48,8 +48,8 @@ export const createProject = createAsyncThunk<
 });
 
 export const changeTitle = createAsyncThunk<
-  IChangeTitleResponse,
   IProject,
+  IChangeTitleRequest,
   { rejectValue: IError; dispatch: AppDispatch; state: RootState }
 >("project/changeTitle", async ({ _id, title }, thunkAPI) => {
   try {
@@ -72,7 +72,6 @@ export const deleteProject = createAsyncThunk<
 >("project/delete", async (_id, thunkAPI) => {
   try {
     const response = await projectAPI.deleteProject(_id);
-    console.log(response)
     return response.data as string;
   } catch (e) {
     const error: AxiosError = e as AxiosError;

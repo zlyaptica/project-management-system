@@ -1,8 +1,7 @@
 const ProjectModel = require("../models/project-model");
 const UserModel = require("../models/user-model");
+const AccessModel = require("../models/access-model");
 const ApiError = require("../exceptions/api-error");
-const { default: mongoose } = require("mongoose");
-
 
 class ProjectService {
   async getProjects(id) {
@@ -11,10 +10,16 @@ class ProjectService {
       throw ApiError.BadRequest("Несуществующий пользователь!");
     }
 
-    const projects = await ProjectModel.find({ author: id });
+    const accessBoards = await AccessModel.find({ user_id: user._id });
+    let projects = [];
+    for (let i = 0; i < accessBoards.length; i++) {
+      const project = await ProjectModel.findOne({ _id: accessBoards[i].project_id });
+      projects.push(project);
+    }
 
     return projects;
   }
+
   async createProject(id, title) {
     const user = await UserModel.findById(id);
     if (!user) {
@@ -22,12 +27,12 @@ class ProjectService {
     }
 
     const project = await ProjectModel.create({ title, author: user.id, created_at: Date.now() });
-
+    await AccessModel.create({ user_id: id, project_id: project._id });
     return project;
   }
 
   async changeTitle(project_id, user_id, title) {
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(user_id);
     if (!user) {
       throw ApiError.BadRequest("Несуществующий пользователь!");
     }
@@ -35,14 +40,15 @@ class ProjectService {
     const project = await ProjectModel.findById(project_id);
 
     if (!project) {
-      throw ApiError.BadRequest("Несуществующий пользователь!");
+      throw ApiError.BadRequest("Несуществующий проект!");
     }
-    
-    if (user._id !== project.author) {
+
+    if (!project.author.equals(user_id)) {
       throw ApiError.BadRequest("Вы не можете изменить название чужого проекта!");
     }
 
-    const updatedProject = await ProjectModel.updateOne({ _id: project_id }, { $set: { title } });
+    await ProjectModel.updateOne({ _id: project_id }, { $set: { title } });
+    const updatedProject = await ProjectModel.findById(project_id)
     return updatedProject;
   }
 
@@ -53,19 +59,19 @@ class ProjectService {
     }
 
     const project = await ProjectModel.findById(project_id);
-    
+
     if (!project) {
       throw ApiError.BadRequest("Несуществующий проект!");
     }
-    console.log("first", user_id)
-    console.log("sec", project.author)
+
     if (!project.author.equals(user_id)) {
       throw ApiError.BadRequest("Вы не можете изменить название чужого проекта!");
     }
 
-    const deletedProject = await ProjectModel.findByIdAndDelete(project_id)
+    const deletedProject = await ProjectModel.findByIdAndDelete(project_id);
+    await AccessModel.deleteMany({ project_id: project_id });
 
-    return project_id
+    return project_id;
   }
 }
 
